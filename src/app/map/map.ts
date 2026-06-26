@@ -1,5 +1,6 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as L from 'leaflet';
+import { BusStop } from '../models/bus-stop-model';
 
 window.L = L
 
@@ -11,12 +12,18 @@ await import('leaflet.markercluster')
   templateUrl: './map.html',
   styleUrl: './map.scss',
 })
-export class Map implements AfterViewInit {
+export class Map implements AfterViewInit, OnChanges {
   private map!: L.Map
+  private busStopsMarked = false
+  @Input() busStops!: BusStop[] | null
 
   ngAfterViewInit(): void {
     this.fixMapIcons()
     this.initMap()
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.markBusStops()
   }
 
   private fixMapIcons() {
@@ -35,5 +42,15 @@ export class Map implements AfterViewInit {
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
+  }
+
+  private markBusStops() {
+    if(this.busStopsMarked || !this.map || !this.busStops) return
+    this.busStopsMarked = true
+    const markers = L.markerClusterGroup()
+    this.busStops.forEach(busStop => {
+      markers.addLayer(L.marker([busStop.latitude, busStop.longitude]).bindPopup(`${busStop.name} (${busStop.number})`))
+    })
+    this.map.addLayer(markers)
   }
 }
