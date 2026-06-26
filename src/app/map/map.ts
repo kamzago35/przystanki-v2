@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, Input, OnChanges } from '@angular/core';
+import { AfterViewInit, ApplicationRef, Component, createComponent, EnvironmentInjector, inject, Input, OnChanges } from '@angular/core';
 import * as L from 'leaflet';
 import { BusStop } from '../models/bus-stop-model';
+import { MarkerPopUp } from '../marker-pop-up/marker-pop-up';
 
 window.L = L
 
@@ -16,6 +17,8 @@ export class Map implements AfterViewInit, OnChanges {
   private map!: L.Map
   private busStopsMarked = false
   @Input() busStops!: BusStop[] | null
+  private injector = inject(EnvironmentInjector)
+  private appRef = inject(ApplicationRef)
 
   ngAfterViewInit(): void {
     this.fixMapIcons()
@@ -49,8 +52,16 @@ export class Map implements AfterViewInit, OnChanges {
     this.busStopsMarked = true
     const markers = L.markerClusterGroup()
     this.busStops.forEach(busStop => {
-      markers.addLayer(L.marker([busStop.latitude, busStop.longitude]).bindPopup(`<div class="d-flex flex-column fw-bold">${busStop.name} (${busStop.number})<button class="btn btn-primary">Rozkład jazdy</button></div>`))
+      markers.addLayer(L.marker([busStop.latitude, busStop.longitude]).bindPopup(this.createPopUp(busStop)))
     })
     this.map.addLayer(markers)
+  }
+
+  private createPopUp(busStop: BusStop) {
+    const componentRef = createComponent(MarkerPopUp, {environmentInjector: this.injector})
+    componentRef.instance.busStop = busStop
+    this.appRef.attachView(componentRef.hostView)
+    const domElem = (componentRef.hostView as any).rootNodes[0] as HTMLElement
+    return domElem
   }
 }
