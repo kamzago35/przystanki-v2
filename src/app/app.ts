@@ -2,6 +2,8 @@ import { Component, OnInit, signal } from '@angular/core';
 import { Map } from "./map/map";
 import { BusStop } from './models/bus-stop-model';
 import { BusStopsService } from './services/bus-stops-service';
+import { ToastService } from './services/toast-service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +15,8 @@ export class App implements OnInit {
   busStops = signal<BusStop[] | null>(null)
 
   constructor(
-    private busStopsService: BusStopsService
+    private busStopsService: BusStopsService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -21,8 +24,8 @@ export class App implements OnInit {
   }
 
   private getBusStops() {
-    this.busStopsService.getBusStopsData().then(busStopsData => {
-      this.busStops.set(busStopsData.data)
-    })
+    this.busStopsService.getBusStopsData()
+    .then(busStopsData => this.busStops.set(busStopsData.data))
+    .catch((error: HttpErrorResponse) => this.toastService.showErrorToast(error.message))
   }
 }
