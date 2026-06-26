@@ -13,7 +13,7 @@ export interface Departure {
             de: string
             uk: string
         }
-    },
+    }
     trip: {
         service: string
         gtfs_id: string | null
@@ -31,25 +31,25 @@ export interface Departure {
             de: string
             uk: string
         }
-        departure_time: {
-            scheduled: string
-            estimated: string
-            departing_now: boolean
-            real_time: boolean
-            canceled: boolean
-        },
-        request_stop: boolean
-        vehicle: null | {
-            id: number
-            number: string
-            model: string | null
-            low_floor: boolean | null
-            ticket_machine: null | {
-                cards: boolean
-                coins: boolean
-            }
-            stuck: boolean
+    }
+    departure_time: {
+        scheduled: string
+        estimated: string
+        departing_now: boolean
+        real_time: boolean
+        canceled: boolean
+    }
+    request_stop: boolean
+    vehicle: null | {
+        id: number
+        number: string
+        model: string | null
+        low_floor: boolean | null
+        ticket_machine: null | {
+            cards: boolean
+            coins: boolean
         }
+        stuck: boolean
     }
 }
 
@@ -58,7 +58,7 @@ export interface DeparturesData {
         stop: {
             name: string
             number: string
-        },
+        }
         departures: Departure[]
         updated_at: string
     }

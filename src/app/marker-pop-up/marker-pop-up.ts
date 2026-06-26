@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { BusStop } from '../models/bus-stop-model';
+import { MatDialog } from '@angular/material/dialog';
+import { DepartureDialog } from '../departure-dialog/departure-dialog';
 
 @Component({
   selector: 'app-marker-pop-up',
@@ -9,4 +11,13 @@ import { BusStop } from '../models/bus-stop-model';
 })
 export class MarkerPopUp {
   @Input() busStop!: BusStop
+  private dialog = inject(MatDialog)
+
+  openDeparturesDialog() {
+    this.dialog.open(DepartureDialog, {
+      data: {
+        busStop: this.busStop
+      }
+    })
+  }
 }

@@ -1,0 +1,6 @@
+<h2 mat-dialog-title>{{data.busStop.name}} ({{data.busStop.number}})</h2>
+<mat-dialog-content>
+    @for (departure of departures(); track $index) {
+        <p>Linia nr <b>{{departure.line.number}}</b> - Kierunek: <b>{{departure.trip.headsign.short}}</b> - Odjazd o <b>{{getTimeFromDateTime(departure.departure_time.scheduled)}}</b></p>
+    }
+</mat-dialog-content>
