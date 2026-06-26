@@ -49,7 +49,7 @@ export class Map implements AfterViewInit, OnChanges {
     this.busStopsMarked = true
     const markers = L.markerClusterGroup()
     this.busStops.forEach(busStop => {
-      markers.addLayer(L.marker([busStop.latitude, busStop.longitude]).bindPopup(`${busStop.name} (${busStop.number})`))
+      markers.addLayer(L.marker([busStop.latitude, busStop.longitude]).bindPopup(`<div class="d-flex flex-column fw-bold">${busStop.name} (${busStop.number})<button class="btn btn-primary">Rozkład jazdy</button></div>`))
     })
     this.map.addLayer(markers)
   }
