@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Map } from "./map/map";
 import { BusStop } from './models/bus-stop-model';
 import { BusStopsService } from './services/bus-stops-service';
@@ -13,11 +13,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class App implements OnInit {
   busStops = signal<BusStop[] | null>(null)
-
-  constructor(
-    private busStopsService: BusStopsService,
-    private toastService: ToastService
-  ) {}
+  private busStopsService = inject(BusStopsService)
+  private toastService = inject(ToastService)
 
   ngOnInit(): void {
     this.getBusStops()

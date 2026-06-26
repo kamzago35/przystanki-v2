@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges } from '@angular/core';
 import * as L from 'leaflet';
 import { BusStop } from '../models/bus-stop-model';
 
@@ -22,7 +22,7 @@ export class Map implements AfterViewInit, OnChanges {
     this.initMap()
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     this.markBusStops()
   }
 
