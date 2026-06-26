@@ -5,10 +5,11 @@ import { Departure } from '../models/departure-model';
 import { DeparturesService } from '../services/departures-service';
 import { ToastService } from '../services/toast-service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-departure-dialog',
-  imports: [MatDialogTitle, MatDialogContent],
+  imports: [MatDialogTitle, MatDialogContent, MatProgressSpinner],
   templateUrl: './departure-dialog.html',
   styleUrl: './departure-dialog.scss',
 })
@@ -17,6 +18,7 @@ export class DepartureDialog implements OnInit {
   private departuresService = inject(DeparturesService)
   private toastService = inject(ToastService)
   departures = signal<Departure[]>([])
+  isLoading = signal(true)
 
   ngOnInit(): void {
     this.getDepartures()
@@ -26,6 +28,7 @@ export class DepartureDialog implements OnInit {
     this.departuresService.getDeparturesData(this.data.busStop.number)
     .then(departuresData => this.departures.set(departuresData.data.departures))
     .catch((error: HttpErrorResponse) => this.toastService.showErrorToast(error.message))
+    .finally(() => this.isLoading.set(false))
   }
 
   getTimeFromDateTime(dateTime: string) {
