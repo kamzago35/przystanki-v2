@@ -1,9 +1,11 @@
-import { AfterViewInit, ApplicationRef, Component, createComponent, EnvironmentInjector, inject, Input, OnChanges, signal } from '@angular/core';
+import { AfterViewInit, ApplicationRef, Component, createComponent, EnvironmentInjector, inject, Input, OnChanges, OnDestroy, signal } from '@angular/core';
 import * as L from 'leaflet';
 import { BusStop } from '../models/bus-stop-model';
 import { MarkerPopUp } from '../marker-pop-up/marker-pop-up';
 import { Capacitor } from '@capacitor/core';
 import { Geolocation } from '@capacitor/geolocation';
+import { FlyOnMapService } from '../services/fly-on-map-service';
+import { Subscription } from 'rxjs';
 
 window.L = L
 
@@ -15,7 +17,7 @@ await import('leaflet.markercluster')
   templateUrl: './map.html',
   styleUrl: './map.scss',
 })
-export class Map implements AfterViewInit, OnChanges {
+export class Map implements AfterViewInit, OnChanges, OnDestroy {
   private map!: L.Map
   private busStopsMarked = false
   private startingPosition = L.latLng(53.43, 14.55)
@@ -24,10 +26,13 @@ export class Map implements AfterViewInit, OnChanges {
   @Input() busStops!: BusStop[] | null
   private injector = inject(EnvironmentInjector)
   private appRef = inject(ApplicationRef)
+  private flyOnMapService = inject(FlyOnMapService)
+  private subscriptions: Subscription[] = []
 
   ngAfterViewInit(): void {
     this.fixMapIcons()
     this.initMap()
+    this.trackChangingPosition()
 
     if(Capacitor.isNativePlatform()) {
       Geolocation.requestPermissions().then(permissions => {
@@ -42,6 +47,10 @@ export class Map implements AfterViewInit, OnChanges {
 
   ngOnChanges(): void {
     this.markBusStops()
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe())
   }
 
   private fixMapIcons() {
@@ -90,7 +99,13 @@ export class Map implements AfterViewInit, OnChanges {
     })
   }
 
+  private trackChangingPosition() {
+    this.subscriptions.push(this.flyOnMapService.currentPosition.subscribe(position => {
+      this.map.flyTo([position[0], position[1]], 18)
+    }))
+  }
+
   moveToUser() {
-    this.map.flyTo(this.userMarker.getLatLng(), 16)
+    this.map.flyTo(this.userMarker.getLatLng(), 18)
   }
 }

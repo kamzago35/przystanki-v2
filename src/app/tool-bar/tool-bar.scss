@@ -1,0 +1,24 @@
+#container {
+    background-color: var(--mat-sys-primary-container);
+    color: var(--mat-sys-primary);
+}
+
+#tool-bar {
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#search-input {
+    width: 232px;
+}
+
+#search-btn {
+    display: flex;
+    padding: 10px;
+    border-radius: 30px;
+    border: 0;
+}

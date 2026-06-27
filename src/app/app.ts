@@ -4,10 +4,11 @@ import { BusStop } from './models/bus-stop-model';
 import { BusStopsService } from './services/bus-stops-service';
 import { ToastService } from './services/toast-service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToolBar } from "./tool-bar/tool-bar";
 
 @Component({
   selector: 'app-root',
-  imports: [Map],
+  imports: [Map, ToolBar],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
