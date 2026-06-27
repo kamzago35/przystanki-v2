@@ -31,7 +31,12 @@ export class DepartureDialog implements OnInit {
     .finally(() => this.isLoading.set(false))
   }
 
-  getTimeFromDateTime(dateTime: string) {
-    return dateTime.split('T')[1].split('.')[0]
+  getTimeFromDateTime(stringDateTime: string) {
+    const dateTime = new Date(stringDateTime)
+    return dateTime.toLocaleString('pl-PL', {
+      timeZone: 'Europe/Warsaw',
+      hour: '2-digit',
+      minute: '2-digit'
+    })
   }
 }

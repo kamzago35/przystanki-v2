@@ -1,4 +1,19 @@
 #map {
-    width: 100%;
     height: 100vh;
+}
+
+#locate-user-btn {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    border-radius: 20px;
+    padding: 10px;
+    background-color: red;
+    border: 0;
+    transition: 500ms;
+}
+
+#locate-user-btn:active {
+    background-color: darkred;
 }

@@ -1,1 +1,4 @@
 <div id="map"></div>
+@if (geolocationRunning()) {
+    <button id="locate-user-btn" (click)="moveToUser()"><img src="map-icons/track-icon.png" alt="Track"></button>
+}

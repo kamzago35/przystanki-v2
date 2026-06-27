@@ -1,7 +1,9 @@
-import { AfterViewInit, ApplicationRef, Component, createComponent, EnvironmentInjector, inject, Input, OnChanges } from '@angular/core';
+import { AfterViewInit, ApplicationRef, Component, createComponent, EnvironmentInjector, inject, Input, OnChanges, signal } from '@angular/core';
 import * as L from 'leaflet';
 import { BusStop } from '../models/bus-stop-model';
 import { MarkerPopUp } from '../marker-pop-up/marker-pop-up';
+import { Capacitor } from '@capacitor/core';
+import { Geolocation } from '@capacitor/geolocation';
 
 window.L = L
 
@@ -16,6 +18,9 @@ await import('leaflet.markercluster')
 export class Map implements AfterViewInit, OnChanges {
   private map!: L.Map
   private busStopsMarked = false
+  private startingPosition = L.latLng(53.43, 14.55)
+  private userMarker!: L.Marker
+  geolocationRunning = signal<boolean>(false)
   @Input() busStops!: BusStop[] | null
   private injector = inject(EnvironmentInjector)
   private appRef = inject(ApplicationRef)
@@ -23,6 +28,16 @@ export class Map implements AfterViewInit, OnChanges {
   ngAfterViewInit(): void {
     this.fixMapIcons()
     this.initMap()
+
+    if(Capacitor.isNativePlatform()) {
+      Geolocation.requestPermissions().then(permissions => {
+        if(permissions.location === 'granted') {
+          this.markUser()
+          this.trackUser()
+          this.geolocationRunning.set(true)
+        }
+      })
+    }
   }
 
   ngOnChanges(): void {
@@ -33,14 +48,14 @@ export class Map implements AfterViewInit, OnChanges {
     delete (L.Icon.Default.prototype as any)._getIconUrl
 
     L.Icon.Default.mergeOptions({
-      iconRetinaUrl: 'leaflet/marker-icon-2x.png',
-      iconUrl: 'leaflet/marker-icon.png',
-      shadowUrl: 'leaflet/marker-shadow.png'
+      iconRetinaUrl: 'map-icons/marker-icon-2x.png',
+      iconUrl: 'map-icons/marker-icon.png',
+      shadowUrl: 'map-icons/marker-shadow.png'
     })
   }
 
   private initMap() {
-    this.map = L.map('map').setView([53.43, 14.55], 13);
+    this.map = L.map('map').setView(this.startingPosition, 13);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -63,5 +78,19 @@ export class Map implements AfterViewInit, OnChanges {
     this.appRef.attachView(componentRef.hostView)
     const domElem = (componentRef.hostView as any).rootNodes[0] as HTMLElement
     return domElem
+  }
+
+  private markUser() {
+    this.userMarker = L.marker(this.startingPosition, {icon: L.icon({iconUrl: 'map-icons/user-icon.png'})}).addTo(this.map)
+  }
+
+  private trackUser() {
+    Geolocation.watchPosition({enableHighAccuracy: true, interval: 1000}, position => {
+      if(position) this.userMarker.setLatLng([position.coords.latitude, position.coords.longitude])
+    })
+  }
+
+  moveToUser() {
+    this.map.flyTo(this.userMarker.getLatLng(), 16)
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "przystanki-v2",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -24,6 +24,7 @@
     "@angular/router": "^22.0.0",
     "@capacitor/android": "^8.4.1",
     "@capacitor/core": "^8.4.1",
+    "@capacitor/geolocation": "^8.2.0",
     "bootstrap": "^5.3.8",
     "leaflet": "^1.9.4",
     "leaflet.markercluster": "^1.5.3",
