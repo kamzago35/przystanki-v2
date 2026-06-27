@@ -4,6 +4,8 @@ import { BusStop } from '../models/bus-stop-model';
 import { ToastService } from '../services/toast-service';
 import { FlyOnMapService } from '../services/fly-on-map-service';
 import { MatIcon } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { FavouriteBusStopsDialog } from '../favourite-bus-stops-dialog/favourite-bus-stops-dialog';
 
 @Component({
   selector: 'app-tool-bar',
@@ -16,6 +18,7 @@ export class ToolBar {
   @Input() busStops!: BusStop[] | null
   private toastService = inject(ToastService)
   private flyOnMapService = inject(FlyOnMapService)
+  private dialog = inject(MatDialog)
 
   search() {
     if(this.searchInput === '') {
@@ -38,5 +41,9 @@ export class ToolBar {
     else {
       this.toastService.showErrorToast('Nie znaleziono przystanku!')
     }
+  }
+
+  openFavouriteBusStopsDialog() {
+    this.dialog.open(FavouriteBusStopsDialog, {data: {busStops: this.busStops}})
   }
 }

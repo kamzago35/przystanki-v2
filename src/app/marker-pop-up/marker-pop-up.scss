@@ -1,8 +1,11 @@
-#pop-up {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+#container {
     text-align: center;
     font-weight: bold;
     font-size: large;
+}
+
+#buttons {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 10px;
 }

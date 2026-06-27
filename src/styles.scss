@@ -45,3 +45,10 @@ body {
 .error-toast .mdc-snackbar__surface {
   background: red !important;
 }
+
+.round-btn {
+    display: flex;
+    padding: 10px;
+    border-radius: 30px;
+    border: 0;
+}
