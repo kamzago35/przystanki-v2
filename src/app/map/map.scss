@@ -7,13 +7,14 @@
     bottom: 30px;
     right: 30px;
     z-index: 1000;
-    border-radius: 20px;
+    display: flex;
+    border-radius: 30px;
     padding: 10px;
-    background-color: red;
+    background-color: skyblue;
     border: 0;
     transition: 500ms;
 }
 
 #locate-user-btn:active {
-    background-color: darkred;
+    background-color: blue;
 }

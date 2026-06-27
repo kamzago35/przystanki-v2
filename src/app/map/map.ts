@@ -6,6 +6,7 @@ import { Capacitor } from '@capacitor/core';
 import { Geolocation } from '@capacitor/geolocation';
 import { FlyOnMapService } from '../services/fly-on-map-service';
 import { Subscription } from 'rxjs';
+import { MatIcon } from '@angular/material/icon';
 
 window.L = L
 
@@ -13,7 +14,7 @@ await import('leaflet.markercluster')
 
 @Component({
   selector: 'app-map',
-  imports: [],
+  imports: [MatIcon],
   templateUrl: './map.html',
   styleUrl: './map.scss',
 })
