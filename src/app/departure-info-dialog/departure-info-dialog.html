@@ -1,0 +1,17 @@
+<div id="container">
+    <h2 mat-dialog-title>{{data.departure.line.number}} | {{data.departure.trip.headsign.short}}</h2>
+    <mat-dialog-content>
+        <div id="details">
+            <p>Typ linii: <b>{{getType()}}</b></p>
+            <p>Podtyp linii: <b>{{getSubtype()}}</b></p>
+            <p>Typ pojazdu: <b>{{getVehicleType()}}</b></p>
+            <p>{{getAccessibility()}}</p>
+            @if (data.departure.vehicle?.ticket_machine) {
+                <p>Pojazd posiada biletomat</p>
+            }
+            @if (data.departure.vehicle?.stuck) {
+                <p><b>Pojazd się nie porusza (możliwy zator drogowy lub awaria pojazdu)</b></p>
+            }
+        </div>
+    </mat-dialog-content>
+</div>

@@ -1,11 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialog } from '@angular/material/dialog';
 import { BusStop } from '../models/bus-stop-model';
 import { Departure } from '../models/departure-model';
 import { DeparturesService } from '../services/departures-service';
 import { ToastService } from '../services/toast-service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { DepartureInfoDialog } from '../departure-info-dialog/departure-info-dialog';
 
 @Component({
   selector: 'app-departure-dialog',
@@ -17,6 +18,7 @@ export class DepartureDialog implements OnInit {
   data = inject<{busStop: BusStop}>(MAT_DIALOG_DATA)
   private departuresService = inject(DeparturesService)
   private toastService = inject(ToastService)
+  private dialog = inject(MatDialog)
   departures = signal<Departure[]>([])
   isLoading = signal(true)
 
@@ -38,5 +40,9 @@ export class DepartureDialog implements OnInit {
       hour: '2-digit',
       minute: '2-digit'
     })
+  }
+
+  openDepartureInfoDialog(departure: Departure) {
+    this.dialog.open(DepartureInfoDialog, {data: {departure: departure}})
   }
 }

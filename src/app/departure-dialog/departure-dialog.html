@@ -6,7 +6,10 @@
         }
         @else {
             @for (departure of departures(); track $index) {
-                <p>Linia nr <b>{{departure.line.number}}</b> - Kierunek: <b>{{departure.trip.headsign.short}}</b> - Odjazd o <b>{{getTimeFromDateTime(departure.departure_time.scheduled)}}</b></p>
+                <div class="departure" (click)="openDepartureInfoDialog(departure)">
+                    <div><b>{{departure.line.number}} | {{departure.trip.headsign.short}}</b></div>
+                    <div>Odjazd o <b>{{getTimeFromDateTime(departure.departure_time.scheduled)}}</b></div>
+                </div>
             }
         }
     </mat-dialog-content>
