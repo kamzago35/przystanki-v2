@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { MatDialogTitle, MatDialogContent, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Departure } from '../models/departure-model';
+import { NgClass } from "@angular/common";
 
 @Component({
   selector: 'app-departure-info-dialog',
-  imports: [MatDialogTitle, MatDialogContent],
+  imports: [MatDialogTitle, MatDialogContent, NgClass],
   templateUrl: './departure-info-dialog.html',
   styleUrl: './departure-info-dialog.scss',
 })

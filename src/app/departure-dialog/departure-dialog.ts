@@ -7,10 +7,11 @@ import { ToastService } from '../services/toast-service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { DepartureInfoDialog } from '../departure-info-dialog/departure-info-dialog';
+import { NgClass } from "@angular/common";
 
 @Component({
   selector: 'app-departure-dialog',
-  imports: [MatDialogTitle, MatDialogContent, MatProgressSpinner],
+  imports: [MatDialogTitle, MatDialogContent, MatProgressSpinner, NgClass],
   templateUrl: './departure-dialog.html',
   styleUrl: './departure-dialog.scss',
 })
