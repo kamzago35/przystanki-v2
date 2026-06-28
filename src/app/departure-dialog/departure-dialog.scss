@@ -4,6 +4,12 @@
     align-items: center;
 }
 
+mat-dialog-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .departure {
     font-size: large;
     display: flex;
@@ -15,8 +21,6 @@
     background-color: var(--mat-sys-primary-container);
     border-radius: 20px;
     border: 0;
-    cursor: pointer;
-    transition: 500ms;
 }
 
 .departure:active {
