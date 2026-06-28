@@ -1,0 +1,8 @@
+<h2 mat-dialog-title id="title">{{data.busStop.name}} ({{data.busStop.number}})</h2>
+<mat-dialog-content>
+    <div id="info">
+        <p>Przystanek na żądanie: <b>{{boolToMessage(data.busStop.request_stop)}}</b></p>
+        <p>Park & Ride: <b>{{boolToMessage(data.busStop.park_and_ride)}}</b></p>
+        <p>Przystanek techniczny: <b>{{boolToMessage(data.busStop.technical)}}</b></p>
+    </div>
+</mat-dialog-content>

@@ -5,6 +5,7 @@ import { DepartureDialog } from '../departure-dialog/departure-dialog';
 import { MatIcon } from '@angular/material/icon';
 import { FavouriteBusStopsService } from '../services/favourite-bus-stops-service';
 import { Subscription } from 'rxjs';
+import { BusStopInfoDialog } from '../bus-stop-info-dialog/bus-stop-info-dialog';
 
 @Component({
   selector: 'app-marker-pop-up',
@@ -37,11 +38,11 @@ export class MarkerPopUp implements OnInit, OnDestroy {
   }
 
   openDeparturesDialog() {
-    this.dialog.open(DepartureDialog, {
-      data: {
-        busStop: this.busStop
-      }
-    })
+    this.dialog.open(DepartureDialog, {data: {busStop: this.busStop}})
+  }
+
+  openBusStopInfoDialog() {
+    this.dialog.open(BusStopInfoDialog, {data: {busStop: this.busStop}})
   }
 
   changeFavourite() {

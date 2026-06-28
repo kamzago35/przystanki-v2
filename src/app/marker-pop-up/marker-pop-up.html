@@ -1,6 +1,7 @@
 <div id="container">
     {{busStop.name}} ({{busStop.number}})
     <div id="buttons">
+        <button class="btn btn-primary round-btn" (click)="openBusStopInfoDialog()"><mat-icon>info</mat-icon></button>
         <button class="btn btn-primary round-btn" (click)="openDeparturesDialog()"><mat-icon>schedule</mat-icon></button>
         <button class="btn btn-primary round-btn" (click)="changeFavourite()"><mat-icon>
             @if (isFavourite()) {favorite}
