@@ -4,7 +4,7 @@
         @if (favouriteBusStops().length > 0) {
             @for (busStop of favouriteBusStops(); track $index) {
                 <div class="bus-stop">
-                    {{busStop.name}} ({{busStop.number}})
+                    <div class="names">{{busStop.name}} ({{busStop.number}})</div>
                     <div class="buttons">
                         <button class="btn btn-primary round-btn" (click)="flyToBusStop(busStop)"><mat-icon>near_me</mat-icon></button>
                         <button class="btn btn-primary round-btn" (click)="openDepartureDialog(busStop)"><mat-icon>schedule</mat-icon></button>
