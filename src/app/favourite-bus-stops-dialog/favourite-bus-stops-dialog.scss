@@ -1,0 +1,23 @@
+#container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bus-stop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+    margin: 5px;
+    padding: 5px;
+    border: 2px solid skyblue;
+    border-radius: 10px;
+    font-size: larger;
+    font-weight: bold;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}

@@ -1,0 +1,7 @@
+<div id="container">
+    <div id="tool-bar">
+        <button class="btn btn-primary round-btn" (click)="openFavouriteBusStopsDialog()"><mat-icon>favorite</mat-icon></button>
+        <input [(ngModel)]="searchInput" placeholder="Nazwa lub numer przystanku" id="search-input" class="form-control">
+        <button (click)="search()" class="btn btn-primary round-btn"><mat-icon>search</mat-icon></button>
+    </div>
+</div>
