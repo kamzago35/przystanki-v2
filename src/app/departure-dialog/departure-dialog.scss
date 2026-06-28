@@ -21,6 +21,7 @@ mat-dialog-content {
     background-color: var(--mat-sys-primary-container);
     border-radius: 20px;
     border: 0;
+    transition: 500ms;
 }
 
 .departure:active {
