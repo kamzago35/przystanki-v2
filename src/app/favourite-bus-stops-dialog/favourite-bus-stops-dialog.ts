@@ -36,11 +36,13 @@ export class FavouriteBusStopsDialog implements OnInit, OnDestroy {
   }
 
   private getFavouriteBusStops() {
-    const busStops: BusStop[] = []
+    this.favouriteBusStops.set([])
     this.data.busStops.forEach(busStop => {
-      if(this.favouriteBusStopsService.isIdFavourite(busStop.id)) busStops.push(busStop)
+      this.favouriteBusStopsService.isIdFavourite(busStop.id)
+      .then(isFavourite => {
+        if(isFavourite) this.favouriteBusStops.update(busStops => [...busStops, busStop])
+      })
     })
-    this.favouriteBusStops.set(busStops)
   }
 
   removeBusStop(busStop: BusStop) {
