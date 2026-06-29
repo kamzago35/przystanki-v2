@@ -34,8 +34,7 @@ export class MarkerPopUp implements OnInit, OnDestroy {
   }
 
   private checkFavourite() {
-    this.favouriteBusStopsService.isIdFavourite(this.busStop.id)
-    .then(isFavourite => this.isFavourite.set(isFavourite))
+    this.isFavourite.set(this.favouriteBusStopsService.isIdFavourite(this.busStop.id))
   }
 
   openDeparturesDialog() {
