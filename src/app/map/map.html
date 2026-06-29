@@ -1,4 +1,4 @@
 <div id="map"></div>
-@if (isNative()) {
+@if (geolocationRunning()) {
     <button id="locate-user-btn" (click)="moveToUser()"><mat-icon>near_me</mat-icon></button>
 }

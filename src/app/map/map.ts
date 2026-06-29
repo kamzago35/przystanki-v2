@@ -23,7 +23,7 @@ export class Map implements AfterViewInit, OnChanges, OnDestroy {
   private busStopsMarked = false
   private startingPosition = L.latLng(53.43, 14.55)
   private userMarker!: L.Marker
-  isNative = signal(false)
+  geolocationRunning = signal<boolean>(false)
   @Input() busStops!: BusStop[] | null
   private injector = inject(EnvironmentInjector)
   private appRef = inject(ApplicationRef)
@@ -34,7 +34,16 @@ export class Map implements AfterViewInit, OnChanges, OnDestroy {
     this.fixMapIcons()
     this.initMap()
     this.trackChangingPosition()
-    this.checkIsNative()
+
+    if(Capacitor.isNativePlatform()) {
+      Geolocation.requestPermissions().then(permissions => {
+        if(permissions.location === 'granted') {
+          this.markUser()
+          this.trackUser()
+          this.geolocationRunning.set(true)
+        }
+      })
+    }
   }
 
   ngOnChanges(): void {
@@ -43,13 +52,6 @@ export class Map implements AfterViewInit, OnChanges, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe())
-  }
-
-  private checkIsNative() {
-    if(Capacitor.isNativePlatform()) {
-      this.isNative.set(true)
-      this.moveToUser()
-    }
   }
 
   private fixMapIcons() {
@@ -88,9 +90,8 @@ export class Map implements AfterViewInit, OnChanges, OnDestroy {
     return domElem
   }
 
-  private async markUser() {
-    const position = await Geolocation.getCurrentPosition({enableHighAccuracy: true})
-    this.userMarker = L.marker([position.coords.latitude, position.coords.longitude], {icon: L.icon({iconUrl: 'map-icons/user-icon.png'})}).addTo(this.map)
+  private markUser() {
+    this.userMarker = L.marker(this.startingPosition, {icon: L.icon({iconUrl: 'map-icons/user-icon.png'})}).addTo(this.map)
   }
 
   private trackUser() {
@@ -106,18 +107,6 @@ export class Map implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   moveToUser() {
-    Geolocation.requestPermissions()
-    .then(permissions => {
-      if(permissions.location === 'granted') {
-        if(!this.userMarker) {
-          this.markUser()
-          .then(() => {
-            this.trackUser()
-            this.map.flyTo(this.userMarker.getLatLng(), 18)
-          })
-        }
-        else this.map.flyTo(this.userMarker.getLatLng(), 18)
-      }
-    })
+    this.map.flyTo(this.userMarker.getLatLng(), 18)
   }
 }
